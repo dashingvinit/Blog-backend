@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       validator: [isEmail, 'Please enter a valid email'],
       unique: true,
+      match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
     },
     password: {
       type: String,
@@ -23,6 +24,7 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
 // firing a function before saving a document
 userSchema.pre('save', async function (next) {
   const salt = await bcrypt.genSalt();
@@ -30,41 +32,4 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-// static method to login user
-userSchema.statics.login = async function (email, password) {
-  const user = await this.findOne({ email: email });
-  if (user) {
-    const auth = await bcrypt.compare(password, user.password);
-    if (auth) {
-      return user;
-    }
-    throw Error('Incorrect password');
-  }
-  throw Error('Incorrect email');
-};
-
-const User = mongoose.model('User', userSchema);
-
-const profileSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  university: String,
-  bio: String,
-  resume: String,
-  instagram: String,
-  twitter: String,
-  linkedin: String,
-  github: String,
-  courses: [{ courseID: String, count: Number, score: Number }],
-  projects: [{ projectID: String, count: Number, score: Number }],
-});
-
-const Profile = mongoose.model('Profile', profileSchema);
-
-module.exports = { User, Profile };
+module.exports = mongoose.model('User', userSchema);

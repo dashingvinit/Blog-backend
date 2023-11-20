@@ -1,4 +1,4 @@
 module.exports = {
-  BlogService: require('./blog-service'),
-  AuthServices: require('./auth-services'),
+  BlogService: require('./blog-services'),
+  UserService: require('./user-services'),
 };

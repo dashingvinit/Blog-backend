@@ -4,7 +4,10 @@ const contentTypes = ['heading', 'sub_heading', 'text', 'image', 'code'];
 
 const blogSchema = new mongoose.Schema({
   title: String,
-  author: ObjectId, // User ID of the author
+  authorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  }, // User ID of the author
   coverImage: String, // URL to the cover image
   content: [
     {
@@ -25,7 +28,7 @@ const blogSchema = new mongoose.Schema({
   views: Number, // Number of views
   comments: [
     {
-      user: ObjectId, // User ID of the commenter
+      user: String, // User ID of the commenter
       content: String,
       createdDate: Date,
       likes: Number,
