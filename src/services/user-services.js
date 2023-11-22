@@ -29,6 +29,7 @@ async function createUser(data) {
 async function loginUser(data) {
   try {
     const user = await userRepository.getUserByEmail(data.email);
+    console.log(user);
     if (!user) throw new AppError('Invalid password', StatusCodes.BAD_REQUEST);
 
     const passwordMatch = Auth.checkPassword(data.password, user.password);

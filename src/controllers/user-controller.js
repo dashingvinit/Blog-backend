@@ -18,7 +18,7 @@ async function login(req, res) {
   const { email, password } = req.body;
   const data = { email, password };
   try {
-    const user = await UserService.loginUser({ data });
+    const user = await UserService.loginUser(data);
     successResponse.data = user;
     return res.status(StatusCodes.CREATED).json(successResponse);
   } catch (error) {
