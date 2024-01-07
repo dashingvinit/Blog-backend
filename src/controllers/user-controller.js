@@ -38,8 +38,22 @@ async function deleteUser(req, res) {
   }
 }
 
+async function patchUser(req, res) {
+  try {
+    const { email, password, name } = req.body;
+    const data = { email, password, name };
+    const user = await UserService.patchUser(req.params.id, data);
+    successResponse.data = user;
+    return res.status(StatusCodes.OK).json(successResponse);
+  } catch (error) {
+    errorResponse.error = error;
+    return res.status(error.statusCode).json(errorResponse);
+  }
+}
+
 module.exports = {
   signup,
   login,
   deleteUser,
+  patchUser,
 };

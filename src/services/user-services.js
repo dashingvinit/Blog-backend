@@ -69,8 +69,21 @@ async function deleteUser(id) {
   }
 }
 
+async function patchUser(id, data) {
+  try {
+    const response = await userRepository.update(id, data);
+    return response;
+  } catch (error) {
+    throw new AppError(
+      'Cannot update data of the user',
+      StatusCodes.INTERNAL_SERVER_ERROR
+    );
+  }
+}
+
 module.exports = {
   createUser,
   loginUser,
   deleteUser,
+  patchUser,
 };
